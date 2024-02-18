@@ -1,14 +1,20 @@
 package com.example.instagramclone;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +43,9 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mRootRef;
     private FirebaseAuth mAuth;
 
+    private ProgressBar prb;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +61,10 @@ public class RegisterActivity extends AppCompatActivity {
         mRootRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
+        prb = findViewById(R.id.progressBar);
+
+
+
         loginUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,8 +77,8 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String txtUsername = username.getText().toString();
                 String txtName = name.getText().toString();
-                String txtEmail = email.getText().toString();
-                String txtPassword = password.getText().toString();
+                String txtEmail = email.getText().toString().trim();
+                String txtPassword = password.getText().toString().trim();
 
                 if(TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtName) || TextUtils.isEmpty(txtPassword)){
                     Toast.makeText(RegisterActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
@@ -78,30 +91,48 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void registerUser(String username, String name, String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+    private void registerUser(final String username, final String name, final String email, String password) {
+
+
+
+        mAuth.createUserWithEmailAndPassword(email , password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                HashMap<String,Object> map = new HashMap<>();
-                map.put("name",name);
-                map.put("email",email);
-                map.put("username",username);
-                map.put("id",mAuth.getCurrentUser().getUid());
+
+                HashMap<String , Object> map = new HashMap<>();
+                map.put("name" , name);
+                map.put("email", email);
+                map.put("username" , username);
+                map.put("id" , mAuth.getCurrentUser().getUid());
+                map.put("bio" , "");
+                map.put("imageurl" , "default");
 
                 mRootRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @SuppressLint("ShowToast")
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(RegisterActivity.this, "Welcome :)", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegisterActivity.this,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        if (task.isSuccessful()){
 
+                            Toast.makeText(RegisterActivity.this, "Update the profile " +
+                                    "for better expereince", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext() , MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            prb.setVisibility(View.VISIBLE);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else {
+                            Exception exception = task.getException();
+                            Log.e(TAG, "Registration failed: " + exception.getMessage());
                         }
                     }
                 });
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+
                 Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
