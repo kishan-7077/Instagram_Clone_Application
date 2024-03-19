@@ -39,6 +39,7 @@
             android:layout_height="50dp"
             android:textAllCaps="false"
             android:text="@string/Login"
+            android:textColor="@color/white"
             android:background="@drawable/button_background"
             android:id="@+id/login"/>
 
@@ -53,6 +54,7 @@
             android:layout_height="50dp"
             android:textAllCaps="false"
             android:text="@string/Register"
+            android:textColor="@color/white"
             android:background="@drawable/button_background"
             android:id="@+id/Register"/>
             

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".LoginActivity"
-
     >
 
     <LinearLayout
@@ -26,7 +25,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:src="@drawable/Text" />
+            android:src="@drawable/text" />
 
         <EditText
             android:id="@+id/login_username"
@@ -34,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:background="@drawable/edit_text_background"
-            android:hint="Username"
+            android:hint="Email"
             android:padding="10dp" />
 
         <EditText
@@ -53,7 +52,8 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/button_background"
             android:text="@string/Login"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            />
 
         <TextView
             android:layout_width="match_parent"
@@ -64,7 +64,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/forgetPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -86,7 +86,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/forgetPassword"
         app:layout_constraintVertical_bias="0.631">
 
         <TextView
@@ -94,12 +94,14 @@
             android:layout_height="wrap_content"
             android:text="Dont Have Account?" />
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sign up"
             android:textColor="#5851DB"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:layout_marginLeft="4dp"
+            android:id="@+id/signUp"/>
 
 
     </LinearLayout>
