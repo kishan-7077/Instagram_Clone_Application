@@ -5,5 +5,11 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="Pbar">
+        <!-- Customize your light theme here. -->
+         <item name="colorSecondary">#FF0057</item>
+    </style>
+
+
     <style name="Theme.InstagramClone" parent="Base.Theme.InstagramClone" />
 </resources>

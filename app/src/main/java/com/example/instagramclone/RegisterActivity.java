@@ -6,8 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -43,7 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mRootRef;
     private FirebaseAuth mAuth;
 
-    private ProgressBar prb;
+    Dialog dialog;
+
 
 
     @Override
@@ -61,8 +65,10 @@ public class RegisterActivity extends AppCompatActivity {
         mRootRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
-        prb = findViewById(R.id.progressBar);
-
+//        For Alert Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.progress_dialogue_box);
+        dialog = builder.create();
 
 
         loginUser.setOnClickListener(new View.OnClickListener() {
@@ -80,20 +86,33 @@ public class RegisterActivity extends AppCompatActivity {
                 String txtEmail = email.getText().toString().trim();
                 String txtPassword = password.getText().toString().trim();
 
+
                 if(TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtName) || TextUtils.isEmpty(txtPassword)){
                     Toast.makeText(RegisterActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
                 } else if (txtPassword.length()<6) {
                     Toast.makeText(RegisterActivity.this, "Password too Short!", Toast.LENGTH_SHORT).show();
                 } else {
                     registerUser(txtUsername,txtName,txtEmail,txtPassword);
+                    setDialog(true);
                 }
             }
         });
     }
 
+//    method for alert dialog
+    private void setDialog(boolean show){
+        if(show){
+            dialog.show();
+        }else{
+            dialog.dismiss();
+        }
+        if(dialog.getWindow()!=null){
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+    }
+
+
     private void registerUser(final String username, final String name, final String email, String password) {
-
-
 
         mAuth.createUserWithEmailAndPassword(email , password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
@@ -117,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     "for better expereince", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext() , MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            prb.setVisibility(View.VISIBLE);
+
                             startActivity(intent);
                             finish();
                         }
