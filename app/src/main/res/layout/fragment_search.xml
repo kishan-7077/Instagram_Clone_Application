@@ -17,15 +17,14 @@
             android:background="?android:attr/windowBackground">
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:src="@drawable/search"
-                android:id="@+id/search" />
-            <TextView
-                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:src="@drawable/search"/>
+            <com.hendraanggrian.appcompat.socialview.widget.SocialAutoCompleteTextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Search..."
                 android:textSize="18sp"
-                android:id="@+id/search_text"
+                android:id="@+id/search_bar"
                 android:layout_marginStart="20dp"/>
         </Toolbar>
     </com.google.android.material.appbar.AppBarLayout>

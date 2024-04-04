@@ -37,13 +37,15 @@
 
     </LinearLayout>
     
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:id="@+id/btn_follow"
         android:textColor="@color/colorPrimary"
-        android:visibility="gone"/>
+        android:background="@drawable/button_background"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>
