@@ -4,7 +4,4 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#808080</color>
     <color name="colorAccent">#e6f2ff</color>
-    <color name="darkerGrey">#A9A9A9</color>
-    <color name="blue">#0000FF</color>
-
 </resources>
