@@ -1,5 +1,7 @@
 package com.example.instagramclone.Model;
 
+import androidx.annotation.NonNull;
+
 public class User {
 
     private String bio;
@@ -40,6 +42,7 @@ public class User {
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
     }
+
 
     public String getName() {
         return name;

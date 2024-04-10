@@ -27,6 +27,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 
+import com.example.instagramclone.Fragments.HomeFragment;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -134,7 +135,7 @@ public class PostActivity extends AppCompatActivity {
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("postid", postId);
                     map.put("imageUrl", imageUrl);
-                    map.put("Description", description.getText().toString());
+                    map.put("description", description.getText().toString());
                     map.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                     ref.child(postId).setValue(map);

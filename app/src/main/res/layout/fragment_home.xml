@@ -21,15 +21,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="180dp"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="125dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/text"
+                    android:src="@drawable/fontbolt"
                     android:layout_alignParentStart="true"/>
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/message"
+                    android:src="@drawable/messagelogolarge"
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="20dp"
                     android:layout_centerVertical="true"
@@ -54,13 +54,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:id="@+id/recucler_view_story"/>
+                android:id="@+id/recycler_view_story"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:id="@+id/recucler_view_posts"/>
+                android:id="@+id/recycler_view_posts"/>
 
         </LinearLayout>
 

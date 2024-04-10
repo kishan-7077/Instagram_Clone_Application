@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         signUp = findViewById(R.id.signUp);
         email = findViewById(R.id.login_username);
         password = findViewById(R.id.login_password);
+        password.setTransformationMethod(new AsteriskPasswordTransformationMethod());
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -65,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String txtemail = email.getText().toString();
                 String txtpass = password.getText().toString();
+
 
                 if(TextUtils.isEmpty(txtemail) || TextUtils.isEmpty(txtpass)){
                     Toast.makeText(LoginActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();

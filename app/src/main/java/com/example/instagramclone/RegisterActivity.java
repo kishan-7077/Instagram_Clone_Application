@@ -59,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
+        password.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         register = findViewById(R.id.registerUser);
         loginUser = findViewById(R.id.login_user);
 
