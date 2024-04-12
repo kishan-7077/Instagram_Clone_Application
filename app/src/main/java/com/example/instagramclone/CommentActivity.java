@@ -16,7 +16,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.instagramclone.Adapter.CommentAdapter;
+import com.example.instagramclone.Model.Comments;
 import com.example.instagramclone.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,17 +28,24 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CommentActivity extends AppCompatActivity {
 
-    private EditText addComent;
+    private RecyclerView recyclerView;
+    private CommentAdapter commentAdapter;
+    private List<Comments> commentsList;
+
+    private EditText addComment;
     private CircleImageView imageProfile;
     private TextView post;
 
@@ -65,13 +76,22 @@ public class CommentActivity extends AppCompatActivity {
             }
         });
 
-        addComent = findViewById(R.id.add_comment);
-        imageProfile = findViewById(R.id.image_profile);
-        post = findViewById(R.id.post);
-
         Intent intent = getIntent();
         postId = intent.getStringExtra("postId");
         authorId = intent.getStringExtra("authorId");
+
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        commentsList = new ArrayList<>();
+        commentAdapter = new CommentAdapter(this,commentsList,postId);
+
+        recyclerView.setAdapter(commentAdapter);
+
+        addComment = findViewById(R.id.add_comment);
+        imageProfile = findViewById(R.id.image_profile);
+        post = findViewById(R.id.post);
 
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -80,21 +100,49 @@ public class CommentActivity extends AppCompatActivity {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(addComent.getText().toString())){
+                if(TextUtils.isEmpty(addComment.getText().toString())){
                     Toast.makeText(CommentActivity.this, "No Comment added!", Toast.LENGTH_SHORT).show();
                 }else {
                     putComment();
                 }
             }
         });
+
+        getComment();
+    }
+
+    private void getComment() {
+        FirebaseDatabase.getInstance().getReference().child("Comments").child(postId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                commentsList.clear();
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Comments comments = dataSnapshot.getValue(Comments.class);
+                    commentsList.add(comments);
+                }
+                commentAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void putComment() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("comment",addComent.getText().toString());
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Comments").child(postId);
+        String id = reference.push().getKey();
+
+        map.put("id",id);
+        map.put("comment",addComment.getText().toString());
         map.put("publisher",fuser.getUid());
 
-        FirebaseDatabase.getInstance().getReference().child("Comments").child(postId).push().setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        addComment.setText("");
+
+        reference.child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
@@ -103,6 +151,7 @@ public class CommentActivity extends AppCompatActivity {
                     Toast.makeText(CommentActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
+
         });
     }
 
