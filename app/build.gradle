@@ -48,6 +48,7 @@ dependencies {
     implementation ("io.grpc:grpc-okhttp:1.62.2")
     implementation("androidx.activity:activity:1.8.2")
 
+
     implementation ("com.hendraanggrian.appcompat:socialview:0.1")
     implementation ("com.hendraanggrian.appcompat:socialview-autocomplete:0.1")
     implementation "com.vanniktech:android-image-cropper:4.5.0"

@@ -111,7 +111,7 @@ public class PostActivity extends AppCompatActivity {
     private void upload () {
 
         if (imageUri != null) {
-            setDialog(true);
+//            setDialog(true);
             StorageReference filePath = FirebaseStorage.getInstance().getReference("Posts").child(System.currentTimeMillis() + "." + getFileExtention(imageUri));
 
             StorageTask<UploadTask.TaskSnapshot> uploadTask = filePath.putFile(imageUri);

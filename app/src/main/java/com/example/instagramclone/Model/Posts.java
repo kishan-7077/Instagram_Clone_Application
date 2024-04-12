@@ -6,17 +6,14 @@ public class Posts {
 
     private String description;
     private String imageUrl;
-    private String postId;
+    private String postid;
     private String publisher;
 
-
-    public Posts() {
-
-    }
-    public Posts(String description, String imageUrl, String postId, String publisher) {
+    public Posts() {}
+    public Posts(String description, String imageUrl, String postid, String publisher) {
         this.description = description;
         this.imageUrl = imageUrl;
-        this.postId = postId;
+        this.postid = postid;
         this.publisher = publisher;
     }
 
@@ -38,11 +35,11 @@ public class Posts {
     }
 
     public String getPostId() {
-        return postId;
+        return postid;
     }
 
-    public void setPostId(String postId) {
-        this.postId = postId;
+    public void setPostId(String postid) {
+        this.postid = postid;
     }
 
     public String getPublisher() {
